@@ -238,75 +238,37 @@ https://templatemo.com/tm-581-kind-heart-charity
         <script src="js/click-scroll.js"></script>
         <script src="js/counter.js"></script>
         <script src="js/custom.js"></script>
-        <!-- <script>
-            const news = JSON.parse(localStorage.getItem('selectedNews'));
-            console.log(news)
-
-            if (news) {
-                // Update header
-                document.getElementById('news-title').textContent = news.title;
-                document.getElementById('news-summary').textContent = news.summary;
-
-                // Add image + full content
-               const contentRow = document.getElementById('news-content-row');
-                contentRow.innerHTML = `
-                <div class="col-lg-12">
-                    <div style="width:100%; height:600px; overflow:hidden; border-radius:8px;">
-                    <img src="${news.image}" 
-                        alt="${news.title}" 
-                        class="img-fluid mb-4"
-                        style="width:100%; height:100%; object-fit:cover; object-position:top;">
-                    </div>
-                    <p class="mt-4" style="font-size: 1.1rem;">${news.content}</p>
-                </div>
-                `;
-
-            } else {
-                document.querySelector('.news-detail-header-section .mini_title').textContent = "News Not Found";
-                document.querySelector('.news-detail-header-section .mini_desc').textContent = "No news item was selected. Return to the homepage.";
-            }
-        </script> -->
+        <script src="news_data.js"></script>
 
         <script>
-            // script.js (used in news_detail.html)
-
             const params = new URLSearchParams(window.location.search);
             const newsId = parseInt(params.get('id'));
 
-            fetch('./news_items.json')
-            .then(res => {
-                if (!res.ok) throw new Error("Failed to load JSON");
-                return res.json();
-            })
-            .then(data => {
-                const news = data.find(item => item.id === newsId);
-                if (!news) {
-                document.getElementById('news-detail').innerHTML = "<p>News item not found.</p>";
-                return;
-                }
+            const news = newsData.find(item => item.id === newsId);
 
+            if (!news) {
+                document.getElementById('news-detail').innerHTML = "<p>News item not found.</p>";
+            } else {
                 document.getElementById('news-title').textContent = news.title;
                 document.getElementById('news-summary').textContent = news.summary;
 
                 const detailHTML = `
-                <div class="col-lg-12">
-                    <div style="width:100%; height:600px; overflow:hidden; border-radius:8px;">
-                    <img src="${news.image}" 
-                        alt="${news.title}" 
-                        class="img-fluid mb-4"
-                        style="width:100%; height:100%; object-fit:cover; object-position:top;">
+                    <div class="col-lg-12">
+                        <div style="width:100%; height:600px; overflow:hidden; border-radius:8px;">
+                            <img src="${news.image}" 
+                                alt="${news.title}" 
+                                class="img-fluid mb-4"
+                                style="width:100%; height:100%; object-fit:cover; object-position:top;">
+                        </div>
+                        <p class="mt-4" style="font-size: 1.1rem;">${news.content}</p>
                     </div>
-                    <p class="mt-4" style="font-size: 1.1rem;">${news.content}</p>
-                </div>
                 `;
-
                 document.getElementById('news-detail').innerHTML = detailHTML;
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('news-detail').innerHTML = "<p>Error loading news.</p>";
-            });
+            }
 
+
+
+           
         </script>
 
     </body>
